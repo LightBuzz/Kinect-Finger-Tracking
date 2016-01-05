@@ -6,7 +6,7 @@ using System.Windows.Media.Imaging;
 
 namespace KinectFingerTracking
 {
-    public class InfraredBitmapGenerator
+    internal class InfraredBitmapGenerator
     {
         public int Width { get; protected set; }
 
@@ -55,7 +55,8 @@ namespace KinectFingerTracking
         }
     }
 
-    public static class BitmapExtensions
+
+    internal static class BitmapExtensions
     {
         private static InfraredBitmapGenerator _bitmapGenerator = new InfraredBitmapGenerator();
 

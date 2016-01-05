@@ -21,8 +21,12 @@ namespace KinectFingerTracking
         private IList<Body> _bodies;
         private Body _body;
 
+        // Create a new reference of a HandsController.
         private HandsController _handsController = null;
 
+        /// <summary>
+        /// The main window of the app.
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
@@ -41,6 +45,7 @@ namespace KinectFingerTracking
                 _bodyReader.FrameArrived += BodyReader_FrameArrived;
                 _bodies = new Body[_sensor.BodyFrameSource.BodyCount];
 
+                // Initialize the HandsController and subscribe to the HandsDetected event.
                 _handsController = new HandsController();
                 _handsController.HandsDetected += HandsController_HandsDetected;
 
@@ -52,13 +57,14 @@ namespace KinectFingerTracking
         {
             canvas.Children.Clear();
 
-            using (DepthFrame depthFrame = e.FrameReference.AcquireFrame())
+            using (DepthFrame frame = e.FrameReference.AcquireFrame())
             {
-                if (depthFrame != null)
+                if (frame != null)
                 {
-                    using (KinectBuffer depthBuffer = depthFrame.LockImageBuffer())
+                    // 2) Update the HandsController using the array (or pointer) of the depth depth data, and the tracked body.
+                    using (KinectBuffer buffer = frame.LockImageBuffer())
                     {
-                        _handsController.Update(depthBuffer.UnderlyingBuffer, _body);
+                        _handsController.Update(buffer.UnderlyingBuffer, _body);
                     }
                 }
             }
@@ -90,15 +96,17 @@ namespace KinectFingerTracking
 
         private void HandsController_HandsDetected(object sender, HandCollection e)
         {
+            // Display the results!
+
             if (e.HandLeft != null)
             {
-                // Draw contour
+                // Draw contour.
                 foreach (var point in e.HandLeft.ContourDepth)
                 {
                     DrawEllipse(point, Brushes.Green, 2.0);
                 }
 
-                // Draw fingers
+                // Draw fingers.
                 foreach (var finger in e.HandLeft.Fingers)
                 {
                     DrawEllipse(finger.DepthPoint, Brushes.White, 4.0);
@@ -107,13 +115,13 @@ namespace KinectFingerTracking
 
             if (e.HandRight != null)
             {
-                // Draw contour
+                // Draw contour.
                 foreach (var point in e.HandRight.ContourDepth)
                 {
                     DrawEllipse(point, Brushes.Blue, 2.0);
                 }
 
-                // Draw fingers
+                // Draw fingers.
                 foreach (var finger in e.HandRight.Fingers)
                 {
                     DrawEllipse(finger.DepthPoint, Brushes.White, 4.0);

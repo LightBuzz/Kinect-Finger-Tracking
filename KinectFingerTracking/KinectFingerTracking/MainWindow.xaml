@@ -9,11 +9,10 @@
         WindowState="Maximized"
         Closing="Window_Closing">
 
-    <Viewbox Grid.Row="1">
+    <Viewbox>
         <Grid Width="512" Height="424">
-            <Image Name="camera" Stretch="Uniform" />
+            <Image Name="camera" />
             <Canvas Name="canvas" />
-            <TextBlock Name="tblInfo" FontSize="40" Foreground="White" Text="Info" />
         </Grid>
     </Viewbox>
 </Window>

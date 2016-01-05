@@ -4,16 +4,34 @@ using System.Linq;
 
 namespace LightBuzz.Vitruvius.FingerTracking
 {
+    /// <summary>
+    /// Represents a hand.
+    /// </summary>
     public class Hand
     {
+        /// <summary>
+        /// The tracking ID of the body the current hand belongs to.
+        /// </summary>
         public ulong TrackingId { get; protected set; }
 
+        /// <summary>
+        /// A list of the detected fingers.
+        /// </summary>
         public IList<Finger> Fingers { get; protected set; }
 
+        /// <summary>
+        /// A list of the contour points in the 3D Camera space.
+        /// </summary>
         public IList<CameraSpacePoint> ContourCamera { get; protected set; }
 
+        /// <summary>
+        /// A list of the contour points in the 2D Depth space.
+        /// </summary>
         public IList<DepthSpacePoint> ContourDepth { get; protected set; }
 
+        /// <summary>
+        /// A list of the countour points in the 2D Color space.
+        /// </summary>
         public IList<ColorSpacePoint> ContourColor { get; protected set; }
 
         internal Hand(ulong trackingID, HandState state, IList<DepthPointEx> contour, IList<DepthPointEx> fingers, CoordinateMapper coordinateMapper)

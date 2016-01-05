@@ -5,8 +5,13 @@ using System.Linq;
 
 namespace LightBuzz.Vitruvius.FingerTracking
 {
+    /// <summary>
+    /// Detects human hands in the 3D and 2D space.
+    /// </summary>
     public class HandsController
     {
+        private readonly int DEFAULT_DEPTH_WIDTH = 512;
+        private readonly int DEFAULT_DEPTH_HEIGHT = 424;
         private readonly ushort MIN_DEPTH = 500;
         private readonly ushort MAX_DEPTH = ushort.MaxValue;
         private readonly float DEPTH_THRESHOLD = 80; // 8cm
@@ -17,18 +22,39 @@ namespace LightBuzz.Vitruvius.FingerTracking
         private byte[] _handPixelsLeft = null;
         private byte[] _handPixelsRight = null;
 
+        /// <summary>
+        /// The width of the depth frame.
+        /// </summary>
         public int DepthWidth { get; set; }
 
+        /// <summary>
+        /// the height of the depth frame.
+        /// </summary>
         public int DepthHeight { get; set; }
 
+        /// <summary>
+        /// The coordinate mapper that will be used during the finger detection process.
+        /// </summary>
         public CoordinateMapper CoordinateMapper { get; set; }
 
+        /// <summary>
+        /// Determines whether the algorithm will detect the left hand.
+        /// </summary>
         public bool DetectLeftHand { get; set; }
 
+        /// <summary>
+        /// Determines whether the algorithm will detect the right hand.
+        /// </summary>
         public bool DetectRightHand { get; set; }
 
+        /// <summary>
+        /// Raised when a new pair of hands is detected.
+        /// </summary>
         public event EventHandler<HandCollection> HandsDetected;
 
+        /// <summary>
+        /// Creates a new instance of <see cref="HandsController"/>.
+        /// </summary>
         public HandsController()
         {
             CoordinateMapper = KinectSensor.GetDefault().CoordinateMapper;
@@ -36,11 +62,20 @@ namespace LightBuzz.Vitruvius.FingerTracking
             DetectRightHand = true;
         }
 
+        /// <summary>
+        /// Creates a new instance of <see cref="HandsController"/> with the specified coordinate mapper.
+        /// </summary>
+        /// <param name="coordinateMapper">The coordinate mapper that will be used during the finger detection process.</param>
         public HandsController(CoordinateMapper coordinateMapper)
         {
             CoordinateMapper = coordinateMapper;
         }
 
+        /// <summary>
+        /// Updates the finger-detection engine with the new data.
+        /// </summary>
+        /// <param name="data">An array of depth values.</param>
+        /// <param name="body">The body to search for hands and fingers.</param>
         public unsafe void Update(ushort[] data, Body body)
         {
             fixed (ushort* frameData = data)
@@ -49,6 +84,11 @@ namespace LightBuzz.Vitruvius.FingerTracking
             }
         }
 
+        /// <summary>
+        /// Updates the finger-detection engine with the new data.
+        /// </summary>
+        /// <param name="data">An IntPtr that describes depth values.</param>
+        /// <param name="body">The body to search for hands and fingers.</param>
         public unsafe void Update(IntPtr data, Body body)
         {
             ushort* frameData = (ushort*)data;
@@ -56,18 +96,23 @@ namespace LightBuzz.Vitruvius.FingerTracking
             Update(frameData, body);
         }
 
+        /// <summary>
+        /// Updates the finger-detection engine with the new data.
+        /// </summary>
+        /// <param name="data">A pointer to an array of depth data.</param>
+        /// <param name="body">The body to search for hands and fingers.</param>
         public unsafe void Update(ushort* data, Body body)
         {
             if (data == null || body == null) return;
 
             if (DepthWidth == 0)
             {
-                DepthWidth = 512;
+                DepthWidth = DEFAULT_DEPTH_WIDTH;
             }
 
             if (DepthHeight == 0)
             {
-                DepthHeight = 424;
+                DepthHeight = DEFAULT_DEPTH_HEIGHT;
             }
 
             if (_handPixelsLeft == null)
@@ -229,7 +274,7 @@ namespace LightBuzz.Vitruvius.FingerTracking
             {
                 HandCollection hands = new HandCollection
                 {
-                    TrackingID = body.TrackingId,
+                    TrackingId = body.TrackingId,
                     HandLeft = handLeft,
                     HandRight = handRight
                 };
