@@ -24,7 +24,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DocumentationFile>bin\Debug\KinectFingerTracking.XML</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -66,13 +67,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="FingerTracking\DepthPointEx.cs" />
-    <Compile Include="FingerTracking\Finger.cs" />
-    <Compile Include="FingerTracking\GrahamScan.cs" />
-    <Compile Include="FingerTracking\Hand.cs" />
-    <Compile Include="FingerTracking\HandCollection.cs" />
-    <Compile Include="FingerTracking\HandsController.cs" />
-    <Compile Include="FingerTracking\PointFilter.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -104,6 +98,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LightBuzz.Vitruvius.FingerTracking\LightBuzz.Vitruvius.FingerTracking.csproj">
+      <Project>{c7312bb5-22eb-4b9c-9552-c97f0ecd0663}</Project>
+      <Name>LightBuzz.Vitruvius.FingerTracking</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
