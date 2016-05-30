@@ -1,4 +1,4 @@
-# Kinect-Finger-Tracking
+# Kinect Finger Tracking
 The most accurate way to track fingers using Kinect v2. Why is it the best solution out there?
 * Tracks both hands simultaneously.
 * It lets you access the contour of the hand and the positions of the fingertips.
@@ -8,6 +8,8 @@ The most accurate way to track fingers using Kinect v2. Why is it the best solut
 
 ## Video
 [Watch on YouTube](https://youtu.be/YH_yiaxUm7k)
+
+![Finger tracking with Kinect - Vangos Pterneas](http://pterneas.com/wp-content/uploads/2016/01/kinect-finger-tracking.png)
 
 ## Usage
 
